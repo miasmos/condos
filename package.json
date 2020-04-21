@@ -13,7 +13,7 @@
         "prod": "webpack --mode=production && npm run docs",
         "dev": "webpack -w --mode=development",
         "example": "cross-env HOSTNAME=api.condos.ca ts-node example/index.ts",
-        "docs": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" --ignoreCompilerErrors --name \"Condos\" --mode \"file\" --out \"docs\" \"src\"",
+        "docs": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" --ignoreCompilerErrors --name \"Condos\" --mode \"file\" --out \"docs/condos\" \"src\"",
         "test": "nyc mocha --file ./test/setup.ts -r ts-node/register test/**/*.spec.ts",
         "coverage": "nyc report --reporter=json > coverage/coverage.json && codecov"
     },

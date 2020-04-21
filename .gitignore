@@ -24,3 +24,4 @@ Thumbs.db
 dist
 coverage
 .nyc_output
+docs
