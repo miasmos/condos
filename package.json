@@ -7,8 +7,8 @@
     ],
     "author": "Stephen Poole",
     "scripts": {
-        "start": "yarn prod",
-        "prod": "webpack --mode=production && yarn docs",
+        "start": "npm run prod",
+        "prod": "webpack --mode=production && npm run docs",
         "dev": "webpack -w --mode=development",
         "example": "cross-env HOSTNAME=api.condos.ca ts-node example/index.ts",
         "docs": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" --ignoreCompilerErrors --name \"Condos\" --mode \"file\" --out \"docs\" \"src\"",
