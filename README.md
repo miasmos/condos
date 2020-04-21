@@ -6,7 +6,7 @@
 
 *Condos* is a promise-based Node.js library for the Condos.ca api.
 
-## Install
+## Installation
 Install `condos` and save to your `package.json` in one easy step.
 
 With npm:
@@ -18,6 +18,9 @@ With yarn:
 ```
 yarn add condos
 ```
+
+## Documentation
+You may find the *Condos* documentation [here](https://stephenpoole.github.io/condos/docs).
 
 ## Usage
 1) Import *Condos* into your application:
