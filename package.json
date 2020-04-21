@@ -1,0 +1,53 @@
+{
+    "name": "condos",
+    "version": "0.0.1",
+    "main": "src/index.ts",
+    "files": [
+        "dist/**/*"
+    ],
+    "author": "Stephen Poole",
+    "scripts": {
+        "start": "yarn prod",
+        "prod": "webpack --mode=production && yarn docs",
+        "dev": "webpack -w --mode=development",
+        "example": "cross-env HOSTNAME=api.condos.ca ts-node example/index.ts",
+        "docs": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" --ignoreCompilerErrors --name \"Condos\" --mode \"file\" --out \"docs\" \"src\"",
+        "test": "nyc mocha --file ./test/setup.ts -r ts-node/register test/**/*.spec.ts"
+    },
+    "type": "module",
+    "license": "MIT",
+    "dependencies": {
+        "axios": "^0.19.2"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.2.11",
+        "@types/mocha": "^7.0.2",
+        "@types/moxios": "^0.4.9",
+        "@types/node": "^13.11.1",
+        "@types/request": "^2.48.1",
+        "@types/webpack": "^4.4.24",
+        "@types/webpack-env": "^1.13.7",
+        "@typescript-eslint/eslint-plugin": "^2.27.0",
+        "@typescript-eslint/parser": "^2.27.0",
+        "chai": "^4.2.0",
+        "cross-env": "^7.0.2",
+        "dotenv-webpack": "^1.7.0",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb-base": "^14.1.0",
+        "eslint-loader": "^4.0.0",
+        "eslint-plugin-import": "^2.16.0",
+        "mocha": "^7.1.1",
+        "moxios": "^0.4.0",
+        "nyc": "^15.0.1",
+        "source-map": "^0.7.3",
+        "source-map-loader": "^0.2.4",
+        "source-map-support": "^0.5.10",
+        "ts-loader": "^6.2.2",
+        "ts-node": "^8.9.0",
+        "typedoc": "^0.17.4",
+        "typescript": "^3.8.3",
+        "webpack": "^4.29.5",
+        "webpack-cli": "^3.2.3",
+        "webpack-node-externals": "^1.7.2"
+    }
+}
