@@ -1,7 +1,8 @@
 {
     "name": "condos",
-    "version": "0.0.2",
-    "main": "dist/index.ts",
+    "version": "0.0.3",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
     "description": "Condos is a promise-based Node.js library for the Condos.ca api.",
     "files": [
         "dist/**/*"
@@ -16,7 +17,6 @@
         "test": "nyc mocha --file ./test/setup.ts -r ts-node/register test/**/*.spec.ts",
         "coverage": "nyc report --reporter=json > coverage/coverage.json && codecov"
     },
-    "type": "module",
     "license": "MIT",
     "dependencies": {
         "axios": "^0.19.2"
@@ -25,13 +25,15 @@
         "@types/chai": "^4.2.11",
         "@types/mocha": "^7.0.2",
         "@types/moxios": "^0.4.9",
-        "@types/node": "^13.11.1",
+        "@types/node": "13.11.1",
         "@types/request": "^2.48.1",
         "@types/webpack": "^4.4.24",
         "@types/webpack-env": "^1.13.7",
         "@typescript-eslint/eslint-plugin": "^2.27.0",
         "@typescript-eslint/parser": "^2.27.0",
+        "awesome-typescript-loader": "^5.2.1",
         "chai": "^4.2.0",
+        "circular-dependency-plugin": "^5.2.0",
         "codecov": "^3.6.5",
         "cross-env": "^7.0.2",
         "dotenv-webpack": "^1.7.0",
@@ -45,7 +47,6 @@
         "source-map": "^0.7.3",
         "source-map-loader": "^0.2.4",
         "source-map-support": "^0.5.10",
-        "ts-loader": "^6.2.2",
         "ts-node": "^8.9.0",
         "typedoc": "^0.17.4",
         "typescript": "^3.8.3",

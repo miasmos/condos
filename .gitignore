@@ -17,9 +17,6 @@ typings/
 # Optional eslint cache
 .eslintcache
 
-# dotenv environment variables file
-.env
-
 # OS metadata
 .DS_Store
 Thumbs.db
