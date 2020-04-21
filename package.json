@@ -13,7 +13,8 @@
         "dev": "webpack -w --mode=development",
         "example": "cross-env HOSTNAME=api.condos.ca ts-node example/index.ts",
         "docs": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" --ignoreCompilerErrors --name \"Condos\" --mode \"file\" --out \"docs\" \"src\"",
-        "test": "nyc mocha --file ./test/setup.ts -r ts-node/register test/**/*.spec.ts"
+        "test": "nyc mocha --file ./test/setup.ts -r ts-node/register test/**/*.spec.ts",
+        "coverage": "nyc report --reporter=json > coverage/coverage.json && codecov"
     },
     "type": "module",
     "license": "MIT",
@@ -31,6 +32,7 @@
         "@typescript-eslint/eslint-plugin": "^2.27.0",
         "@typescript-eslint/parser": "^2.27.0",
         "chai": "^4.2.0",
+        "codecov": "^3.6.5",
         "cross-env": "^7.0.2",
         "dotenv-webpack": "^1.7.0",
         "eslint": "^6.8.0",
