@@ -15,7 +15,7 @@
         "example": "cross-env HOSTNAME=api.condos.ca ts-node example/index.ts",
         "docs": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" --ignoreCompilerErrors --name \"Condos\" --mode \"file\" --out \"docs/condos\" \"src\"",
         "test": "nyc mocha --file ./test/setup.ts -r ts-node/register test/**/*.spec.ts",
-        "coverage": "nyc report --reporter=json > coverage/coverage.json && codecov"
+        "coverage": "mkdir coverage && nyc report --reporter=json > coverage/coverage.json && codecov"
     },
     "license": "MIT",
     "dependencies": {
@@ -26,7 +26,6 @@
         "@types/mocha": "^7.0.2",
         "@types/moxios": "^0.4.9",
         "@types/node": "13.11.1",
-        "@types/request": "^2.48.1",
         "@types/webpack": "^4.4.24",
         "@types/webpack-env": "^1.13.7",
         "@typescript-eslint/eslint-plugin": "^2.27.0",

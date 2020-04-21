@@ -20,7 +20,7 @@ yarn add condos
 ```
 
 ## Documentation
-You may find the *Condos* documentation [here](https://stephenpoole.github.io/condos/docs).
+You may find the *Condos* documentation [here](https://stephenpoole.github.io/condos).
 
 ## Usage
 1) Import *Condos* into your application:
