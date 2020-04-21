@@ -15,13 +15,14 @@
         "example": "cross-env HOSTNAME=api.condos.ca ts-node example/index.ts",
         "docs": "typedoc --excludeExternals --externalPattern \"**/node_modules/**\" --ignoreCompilerErrors --name \"Condos\" --mode \"file\" --out \"docs/condos\" \"src\"",
         "test": "nyc mocha --file ./test/setup.ts -r ts-node/register test/**/*.spec.ts",
-        "coverage": "mkdir coverage && nyc report --reporter=json > coverage/coverage.json && codecov"
+        "coverage": "nyc --reporter=lcov npm test"
     },
     "license": "MIT",
     "dependencies": {
         "axios": "^0.19.2"
     },
     "devDependencies": {
+        "@istanbuljs/nyc-config-typescript": "^1.0.1",
         "@types/chai": "^4.2.11",
         "@types/mocha": "^7.0.2",
         "@types/moxios": "^0.4.9",
