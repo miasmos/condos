@@ -1,7 +1,15 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable camelcase */
 
-import { OfferType, GroupType, Neighbourhood, Precision, AreaType } from "./enum";
+import {
+    OfferType,
+    GroupType,
+    Neighbourhood,
+    Precision,
+    AreaType,
+    Locality,
+    Sublocality,
+} from "./enum";
 
 export interface JsonResponse<T> {
     status: number;
@@ -34,7 +42,8 @@ export interface ListingsOptions {
     offer: OfferType;
     precision: Precision | number;
     groupBy?: GroupType;
-    neighbourhood?: Neighbourhood | number;
+    neighbourhood?: Neighbourhood | Neighbourhood[];
+    sublocality?: Sublocality | Sublocality[];
 }
 
 export interface ListingsResponse {
@@ -63,7 +72,7 @@ export interface ParsedArea extends Omit<Area, "center_point_json" | "polygon_js
 
 export interface AreasOptions {
     areaType: AreaType;
-    areaId: number;
+    areaId: Locality;
 }
 
 export interface AreasResponse {
@@ -82,7 +91,8 @@ export interface ParsedPolygonItem {
 }
 
 export interface PolygonsOptions {
-    neighbourhood: Neighbourhood | number;
+    neighbourhood: Neighbourhood | Neighbourhood[];
+    locality?: Locality | Locality[];
 }
 
 export interface PolygonsResponse {

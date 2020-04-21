@@ -2,7 +2,7 @@ import { expect } from "chai";
 import api, {
     AreaType,
     Precision,
-    Neighbourhood,
+    NeighbourhoodDowntown,
     GroupType,
     OfferType,
     ListingsResponse,
@@ -41,7 +41,7 @@ describe("api/index", () => {
 
             const response = await api.listings({
                 precision: Precision.Narrow,
-                neighbourhood: Neighbourhood.KingWest,
+                neighbourhood: [NeighbourhoodDowntown.KingWest],
                 groupBy: GroupType.Neighbourhood,
                 offer: OfferType.Sale,
             });
@@ -120,7 +120,7 @@ describe("api/index", () => {
             });
 
             const response = await api.polygons({
-                neighbourhood: 753,
+                neighbourhood: NeighbourhoodDowntown.KingWest,
             });
 
             expect(response).deep.equal({
@@ -247,7 +247,7 @@ describe("api/index", () => {
             });
 
             const response = await api.stats({
-                neighbourhood: 753,
+                neighbourhood: NeighbourhoodDowntown.KingWest,
             });
 
             expect(response).deep.equal(expected);
