@@ -2,6 +2,7 @@
     "name": "condos",
     "version": "0.0.1",
     "main": "src/index.ts",
+    "description": "Condos is a promise-based Node.js library for the Condos.ca api.",
     "files": [
         "dist/**/*"
     ],
