@@ -9,6 +9,7 @@ import {
     AreaType,
     Locality,
     Sublocality,
+    BedType,
 } from "./enum";
 
 export interface JsonResponse<T> {
@@ -32,10 +33,17 @@ export interface Listing {
     cluster_count: number;
     min_price: string;
     max_price: string;
-    bed_type: string;
+    bed_type: BedType;
     bathrooms: number;
     group_name?: string;
     asking_price: number;
+}
+
+export interface ParsedListing extends Omit<Listing, "min_price" | "max_price" | "lat" | "lng"> {
+    min_price: number;
+    max_price: number;
+    lat: number;
+    lng: number;
 }
 
 export interface ListingsOptions {
@@ -47,8 +55,8 @@ export interface ListingsOptions {
 }
 
 export interface ListingsResponse {
-    precision: string;
-    clusters: Listing[];
+    precision: number | string;
+    clusters: Listing[] | ParsedListing[];
 }
 
 // Areas
@@ -66,14 +74,17 @@ export interface Area {
     zoom_level?: number[];
 }
 
+export interface ParsedArea
+    extends Omit<Area, "center_point_json" | "polygon_json" | "area_id" | "children"> {
+    polygon_json?: Location[];
+    center_point_json: Location;
+    area_id: number;
+    children: Partial<ParsedArea>[];
+}
+
 export interface AreaNode {
     label: string;
     children: Partial<Area>[] | null;
-}
-
-export interface ParsedArea extends Omit<Area, "center_point_json" | "polygon_json"> {
-    polygon_json?: Location[];
-    center_point_json: Location;
 }
 
 export interface AreasOptions {
@@ -180,7 +191,42 @@ export interface StatSummary {
     rank_parent_id: number;
 }
 
-interface StatInsightItem {
+export interface ParsedStatSummary
+    extends Pick<
+        StatSummary,
+        | "sale_listings_count"
+        | "rent_listings_count"
+        | "sold_price_rank"
+        | "sold_price_rank_out_of"
+        | "sold_psf_rank"
+        | "sold_psf_rank_out_of"
+        | "leased_price_rank"
+        | "leased_price_rank_out_of"
+        | "leased_psf_rank"
+        | "leased_psf_rank_out_of"
+        | "rank_type"
+        | "rank_parent_name"
+        | "rank_parent_url"
+        | "rank_parent_type"
+        | "rank_parent_id"
+    > {
+    sold_avg_price: number | null;
+    sold_price_change: number | null;
+    sold_avg_beds: number | null;
+    sold_avg_baths: number | null;
+    sold_avg_sqft: number | null;
+    sold_avg_psf: number | null;
+    sold_psf_change: number | null;
+    leased_avg_price: number | null;
+    leased_price_change: number | null;
+    leased_avg_beds: number | null;
+    leased_avg_baths: number | null;
+    leased_avg_sqft: number | null;
+    leased_avg_psf: number | null;
+    leased_psf_change: number | null;
+}
+
+export interface StatInsightItem {
     count: number;
     avg_price: string;
     end_date: string;
@@ -192,9 +238,19 @@ interface StatInsightItem {
     avg_price_change: string;
 }
 
+export interface ParsedStatInsightItem extends Pick<StatInsightItem, "count" | "count_psf"> {
+    avg_price: number | null;
+    end_date: number | null;
+    avg_psf: number | null;
+    avg_sqft: number | null;
+    avg_dom: number | null;
+    avg_psf_change: number | null;
+    avg_price_change: number | null;
+}
+
 export interface StatInsights {
-    Leased: StatInsightItem;
-    Sold: StatInsightItem;
+    Leased: StatInsightItem | ParsedStatInsightItem;
+    Sold: StatInsightItem | ParsedStatInsightItem;
     info: {
         id: number;
         type: string;
@@ -224,6 +280,6 @@ export interface StatsResponse {
     photo: StatPhoto;
     descriptions: StatDescriptions;
     parent_stats: StatParent;
-    summary_stats: StatSummary;
+    summary_stats: StatSummary | ParsedStatSummary;
     insights: StatInsights;
 }

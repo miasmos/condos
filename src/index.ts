@@ -1,6 +1,7 @@
 import Api from "./api";
 import {
     AreaType,
+    BedType,
     OfferType,
     GroupType,
     Precision,
@@ -54,6 +55,7 @@ import {
 export default Api;
 export {
     AreaType,
+    BedType,
     OfferType,
     GroupType,
     Precision,
