@@ -42,14 +42,14 @@ import Condos, {
 } from 'condos';
 
 Condos.listings({
-  precision: Precision.Normal,
-  neighbourhood: [
-      NeighbourhoodTorontoDowntown.KingWest,
-      NeighbourhoodTorontoEastEnd.EastEndDanforth,
-  ],
-  sublocality: [SublocalityToronto.Etobicoke],
-  groupBy: GroupType.Neighbourhood,
-  offer: OfferType.Sale,
+    precision: Precision.Normal,
+    neighbourhood: [
+        NeighbourhoodTorontoDowntown.KingWest,
+        NeighbourhoodTorontoEastEnd.EastEndDanforth,
+    ],
+    sublocality: [SublocalityToronto.Etobicoke],
+    groupBy: GroupType.Neighbourhood,
+    offer: OfferType.Sale,
 }).then(data => {
   console.log(data);
 });

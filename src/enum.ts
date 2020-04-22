@@ -9,6 +9,15 @@ export enum GroupType {
     LocalityParent = "LocalityParent",
 }
 
+export enum BedType {
+    Studio = "Studio",
+    One = "1",
+    OnePlusDen = "1+1",
+    Two = "2",
+    TwoPlusDen = "2+1",
+    ThreeOrMore = "3",
+}
+
 export type Neighbourhood =
     | NeighbourhoodTorontoEastYork
     | NeighbourhoodTorontoMidtown

@@ -3,6 +3,10 @@
 
 import { uniq } from "lodash";
 import CondosClient from "./client";
+import StatsAdapter from "./adapters/stats";
+import AreasAdapter from "./adapters/areas";
+import PolygonsAdapter from "./adapters/polygons";
+import ListingsAdapter from "./adapters/listings";
 import {
     AreasOptions,
     MapAreasResponse,
@@ -11,15 +15,19 @@ import {
     ListingsResponse,
     PolygonsOptions,
     PolygonsResponse,
-    Location,
     StatsOptions,
     StatsResponse,
+    StatSummary,
+    StatInsightItem,
+    Area,
+    PolygonItem,
+    Listing,
 } from "../types";
 
 class CondosApi {
-    static listings({
+    static async listings({
         offer,
-        precision,
+        precision: requestedPrecision,
         groupBy: cluster_groupby,
         neighbourhood,
         sublocality,
@@ -33,32 +41,34 @@ class CondosApi {
             sublocality_id = uniq(sublocality_id).join(",");
         }
 
-        return CondosClient.get<ListingsResponse>("/map-search/listings", {
-            offer,
-            precision,
-            cluster_groupby,
-            neighbourhood_id,
-            sublocality_id,
-        });
+        const { precision, clusters } = await CondosClient.get<ListingsResponse>(
+            "/map-search/listings",
+            {
+                offer,
+                precision: requestedPrecision,
+                cluster_groupby,
+                neighbourhood_id,
+                sublocality_id,
+            }
+        );
+
+        return {
+            precision: ListingsAdapter.precision(precision as string),
+            clusters: (clusters as Listing[]).map(listing => ListingsAdapter.listing(listing)),
+        };
     }
 
     static async areas({
         areaType: area_type,
         areaId: area_id,
     }: AreasOptions): Promise<AreasResponse> {
-        const {
-            Areas: { center_point_json = "", polygon_json, ...areasProps },
-            ...props
-        } = await CondosClient.get<AreasResponse>("/menus/areas", {
+        const { Areas, ...props } = await CondosClient.get<AreasResponse>("/menus/areas", {
             area_type,
             area_id,
         });
 
         return {
-            Areas: {
-                center_point_json: JSON.parse(center_point_json as string) as Location,
-                ...areasProps,
-            },
+            Areas: AreasAdapter.area(Areas as Area),
             ...props,
         };
     }
@@ -73,12 +83,7 @@ class CondosApi {
         });
 
         Object.keys(Areas).forEach(areaId => {
-            const { polygon_json = "", center_point_json = "", ...props } = Areas[areaId];
-            Areas[areaId] = {
-                ...props,
-                polygon_json: JSON.parse(polygon_json as string) as Location[],
-                center_point_json: JSON.parse(center_point_json as string) as Location,
-            };
+            Areas[areaId] = AreasAdapter.area(Areas[areaId] as Area);
         });
 
         return { Areas };
@@ -100,17 +105,27 @@ class CondosApi {
         });
 
         Object.keys(data).forEach(areaId => {
-            const { polygon_json = "", center_point_json = "" } = data[areaId];
-            data[areaId] = {
-                polygon_json: JSON.parse(polygon_json as string) as Location[],
-                center_point_json: JSON.parse(center_point_json as string) as Location,
-            };
+            data[areaId] = PolygonsAdapter.polygon(data[areaId] as PolygonItem);
         });
         return data;
     }
 
-    static stats({ neighbourhood: neighbourhood_id }: StatsOptions): Promise<StatsResponse> {
-        return CondosClient.get<StatsResponse>(`/neighbourhoods/${neighbourhood_id}/stats`);
+    static async stats({ neighbourhood: neighbourhood_id }: StatsOptions): Promise<StatsResponse> {
+        const {
+            summary_stats,
+            insights: { Leased, Sold, ...insightsProps },
+            ...props
+        } = await CondosClient.get<StatsResponse>(`/neighbourhoods/${neighbourhood_id}/stats`);
+
+        return {
+            ...props,
+            summary_stats: StatsAdapter.summaryStats(summary_stats as StatSummary),
+            insights: {
+                ...insightsProps,
+                Leased: StatsAdapter.insightItem(Leased as StatInsightItem),
+                Sold: StatsAdapter.insightItem(Sold as StatInsightItem),
+            },
+        };
     }
 }
 
