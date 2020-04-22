@@ -1,11 +1,24 @@
-import CondosApi, { Precision, Neighbourhood, GroupType, OfferType } from "../src";
+import CondosApi, {
+    Precision,
+    GroupType,
+    OfferType,
+    NeighbourhoodTorontoDowntown,
+    NeighbourhoodTorontoEastEnd,
+    SublocalityToronto,
+    AreaType,
+    Locality,
+} from "../src";
 
 (async (): Promise<void> => {
     try {
         console.log(
             await CondosApi.listings({
-                precision: Precision.Narrow,
-                neighbourhood: Neighbourhood.KingWest,
+                precision: Precision.Normal,
+                neighbourhood: [
+                    NeighbourhoodTorontoDowntown.KingWest,
+                    NeighbourhoodTorontoEastEnd.EastEndDanforth,
+                ],
+                sublocality: [SublocalityToronto.Etobicoke],
                 groupBy: GroupType.Neighbourhood,
                 offer: OfferType.Sale,
             })

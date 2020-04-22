@@ -2,10 +2,11 @@ import { expect } from "chai";
 import api, {
     AreaType,
     Precision,
-    Neighbourhood,
+    NeighbourhoodTorontoDowntown,
     GroupType,
     OfferType,
     ListingsResponse,
+    MapAreasResponse,
     AreasResponse,
     PolygonsResponse,
     StatsResponse,
@@ -41,7 +42,7 @@ describe("api/index", () => {
 
             const response = await api.listings({
                 precision: Precision.Narrow,
-                neighbourhood: Neighbourhood.KingWest,
+                neighbourhood: [NeighbourhoodTorontoDowntown.KingWest],
                 groupBy: GroupType.Neighbourhood,
                 offer: OfferType.Sale,
             });
@@ -50,9 +51,9 @@ describe("api/index", () => {
         });
     });
 
-    describe("areas()", () => {
+    describe("mapAreas()", () => {
         it("should return the expected response", async () => {
-            intercept<AreasResponse>({
+            intercept<MapAreasResponse>({
                 status: 1,
                 message: "success",
                 data: {
@@ -74,7 +75,7 @@ describe("api/index", () => {
                 },
             });
 
-            const response = await api.areas({
+            const response = await api.mapAreas({
                 areaId: 1,
                 areaType: AreaType.Locality,
             });
@@ -106,6 +107,109 @@ describe("api/index", () => {
         });
     });
 
+    describe("areas()", () => {
+        it("should return the expected response", async () => {
+            intercept<AreasResponse>({
+                status: 1,
+                message: "success",
+                data: {
+                    Areas: {
+                        label: "Georgina",
+                        url: "georgina",
+                        area_type: "Locality",
+                        filter_type: "locality_id",
+                        area_id: "23",
+                        center_point_json: '{"lat":44.303945569231004,"lng":-79.33836936550699}',
+                        children: [
+                            {
+                                label: "Sutton & Jackson's Point",
+                                url: "georgina/sutton-jackson-s-point",
+                                area_type: "Neighbourhood",
+                                filter_type: "neighbourhood_id",
+                                area_id: 1222,
+                            },
+                        ],
+                    },
+                    Popular: {
+                        label: "Popular Georgina Searches",
+                        children: [
+                            {
+                                label: "Sutton & Jackson's Point",
+                                url: "georgina/sutton-jackson-s-point",
+                            },
+                        ],
+                    },
+                    "Sub-Markets": {
+                        label: "Georgina Sub Markets",
+                        children: null,
+                    },
+                    Nearby: {
+                        label: "Nearby Searches",
+                        children: [
+                            {
+                                label: "East Gwillimbury",
+                                url: "east-gwillimbury",
+                                area_type: "Locality",
+                                filter_type: "locality_id",
+                                area_id: 24,
+                            },
+                        ],
+                    },
+                },
+            });
+
+            const response = await api.areas({
+                areaId: 1,
+                areaType: AreaType.Locality,
+            });
+
+            expect(response).deep.equal({
+                Areas: {
+                    label: "Georgina",
+                    url: "georgina",
+                    area_type: "Locality",
+                    filter_type: "locality_id",
+                    area_id: "23",
+                    center_point_json: { lat: 44.303945569231004, lng: -79.33836936550699 },
+                    children: [
+                        {
+                            label: "Sutton & Jackson's Point",
+                            url: "georgina/sutton-jackson-s-point",
+                            area_type: "Neighbourhood",
+                            filter_type: "neighbourhood_id",
+                            area_id: 1222,
+                        },
+                    ],
+                },
+                Popular: {
+                    label: "Popular Georgina Searches",
+                    children: [
+                        {
+                            label: "Sutton & Jackson's Point",
+                            url: "georgina/sutton-jackson-s-point",
+                        },
+                    ],
+                },
+                "Sub-Markets": {
+                    label: "Georgina Sub Markets",
+                    children: null,
+                },
+                Nearby: {
+                    label: "Nearby Searches",
+                    children: [
+                        {
+                            label: "East Gwillimbury",
+                            url: "east-gwillimbury",
+                            area_type: "Locality",
+                            filter_type: "locality_id",
+                            area_id: 24,
+                        },
+                    ],
+                },
+            });
+        });
+    });
+
     describe("polygons()", () => {
         it("should return the expected response", async () => {
             intercept<PolygonsResponse>({
@@ -120,7 +224,7 @@ describe("api/index", () => {
             });
 
             const response = await api.polygons({
-                neighbourhood: 753,
+                neighbourhood: NeighbourhoodTorontoDowntown.KingWest,
             });
 
             expect(response).deep.equal({
@@ -247,7 +351,7 @@ describe("api/index", () => {
             });
 
             const response = await api.stats({
-                neighbourhood: 753,
+                neighbourhood: NeighbourhoodTorontoDowntown.KingWest,
             });
 
             expect(response).deep.equal(expected);

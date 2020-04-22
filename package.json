@@ -1,6 +1,6 @@
 {
     "name": "condos",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "description": "Condos is a promise-based Node.js library for the Condos.ca api.",
@@ -19,11 +19,13 @@
     },
     "license": "MIT",
     "dependencies": {
-        "axios": "^0.19.2"
+        "axios": "^0.19.2",
+        "lodash": "^4.17.15"
     },
     "devDependencies": {
         "@istanbuljs/nyc-config-typescript": "^1.0.1",
         "@types/chai": "^4.2.11",
+        "@types/lodash": "^4.14.150",
         "@types/mocha": "^7.0.2",
         "@types/moxios": "^0.4.9",
         "@types/node": "13.11.1",

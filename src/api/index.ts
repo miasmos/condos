@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/camelcase */
 /* eslint-disable camelcase */
 
+import { uniq } from "lodash";
 import CondosClient from "./client";
 import {
     AreasOptions,
+    MapAreasResponse,
     AreasResponse,
     ListingsOptions,
     ListingsResponse,
@@ -19,13 +21,24 @@ class CondosApi {
         offer,
         precision,
         groupBy: cluster_groupby,
-        neighbourhood: neighbourhood_id,
+        neighbourhood,
+        sublocality,
     }: ListingsOptions): Promise<ListingsResponse> {
+        let neighbourhood_id = neighbourhood as unknown;
+        if (Array.isArray(neighbourhood_id)) {
+            neighbourhood_id = uniq(neighbourhood_id).join(",");
+        }
+        let sublocality_id = sublocality as unknown;
+        if (Array.isArray(sublocality_id)) {
+            sublocality_id = uniq(sublocality_id).join(",");
+        }
+
         return CondosClient.get<ListingsResponse>("/map-search/listings", {
             offer,
             precision,
             cluster_groupby,
             neighbourhood_id,
+            sublocality_id,
         });
     }
 
@@ -33,7 +46,28 @@ class CondosApi {
         areaType: area_type,
         areaId: area_id,
     }: AreasOptions): Promise<AreasResponse> {
-        const { Areas } = await CondosClient.get<AreasResponse>("/mappings/areas", {
+        const {
+            Areas: { center_point_json = "", polygon_json, ...areasProps },
+            ...props
+        } = await CondosClient.get<AreasResponse>("/menus/areas", {
+            area_type,
+            area_id,
+        });
+
+        return {
+            Areas: {
+                center_point_json: JSON.parse(center_point_json as string) as Location,
+                ...areasProps,
+            },
+            ...props,
+        };
+    }
+
+    static async mapAreas({
+        areaType: area_type,
+        areaId: area_id,
+    }: AreasOptions): Promise<MapAreasResponse> {
+        const { Areas } = await CondosClient.get<MapAreasResponse>("/mappings/areas", {
             area_type,
             area_id,
         });
@@ -50,11 +84,19 @@ class CondosApi {
         return { Areas };
     }
 
-    static async polygons({
-        neighbourhood: neighbourhood_id,
-    }: PolygonsOptions): Promise<PolygonsResponse> {
+    static async polygons({ neighbourhood, locality }: PolygonsOptions): Promise<PolygonsResponse> {
+        let neighbourhood_id = neighbourhood as unknown;
+        if (Array.isArray(neighbourhood_id)) {
+            neighbourhood_id = uniq(neighbourhood_id).join(",");
+        }
+        let locality_id = locality as unknown;
+        if (Array.isArray(locality_id)) {
+            locality_id = uniq(locality_id).join(",");
+        }
+
         const data = await CondosClient.get<PolygonsResponse>("/areas/polygons", {
             neighbourhood_id,
+            locality_id,
         });
 
         Object.keys(data).forEach(areaId => {
