@@ -5,8 +5,6 @@ import CondosApi, {
     NeighbourhoodTorontoDowntown,
     NeighbourhoodTorontoEastEnd,
     SublocalityToronto,
-    AreaType,
-    Locality,
 } from "../src";
 
 (async (): Promise<void> => {

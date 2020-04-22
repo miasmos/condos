@@ -32,11 +32,22 @@ import Condos from 'condos';
 
 With Promises:
 ```
-import Condos, { Precision, Neighbourhood, GroupType, OfferType } from 'condos';
+import Condos, { 
+    Precision,
+    GroupType,
+    OfferType,
+    NeighbourhoodTorontoDowntown,
+    NeighbourhoodTorontoEastEnd,
+    SublocalityToronto
+} from 'condos';
 
 Condos.listings({
-  precision: Precision.Narrow,
-  neighbourhood: Neighbourhood.KingWest,
+  precision: Precision.Normal,
+  neighbourhood: [
+      NeighbourhoodTorontoDowntown.KingWest,
+      NeighbourhoodTorontoEastEnd.EastEndDanforth,
+  ],
+  sublocality: [SublocalityToronto.Etobicoke],
   groupBy: GroupType.Neighbourhood,
   offer: OfferType.Sale,
 }).then(data => {
@@ -46,14 +57,25 @@ Condos.listings({
 
 With async/await:
 ```
-import Condos, { Precision, Neighbourhood, GroupType, OfferType } from 'condos';
+import Condos, { 
+    Precision,
+    GroupType,
+    OfferType,
+    NeighbourhoodTorontoDowntown,
+    NeighbourhoodTorontoEastEnd,
+    SublocalityToronto
+} from 'condos';
 
 (async () => {
   const data = await Condos.listings({
-    precision: Precision.Narrow,
-    neighbourhood: Neighbourhood.KingWest,
-    groupBy: GroupType.Neighbourhood,
-    offer: OfferType.Sale,
+      precision: Precision.Normal,
+      neighbourhood: [
+          NeighbourhoodTorontoDowntown.KingWest,
+          NeighbourhoodTorontoEastEnd.EastEndDanforth,
+      ],
+      sublocality: [SublocalityToronto.Etobicoke],
+      groupBy: GroupType.Neighbourhood,
+      offer: OfferType.Sale,
   });
   console.log(data);
 })();
