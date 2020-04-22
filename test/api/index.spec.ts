@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { DateTime } from "luxon";
 import api, {
     AreaType,
     Precision,
@@ -448,7 +449,7 @@ describe("api/index", () => {
                     Leased: {
                         count: 2107,
                         avg_price: 2669.02,
-                        end_date: 1587441600,
+                        end_date: DateTime.fromISO("2020-04-21").toSeconds(),
                         avg_psf: 4.08,
                         count_psf: 2095,
                         avg_sqft: 654.03,
@@ -459,7 +460,7 @@ describe("api/index", () => {
                     Sold: {
                         count: 948,
                         avg_price: 795420.66,
-                        end_date: 1587441600,
+                        end_date: DateTime.fromISO("2020-04-21").toSeconds(),
                         avg_psf: 1025.76,
                         count_psf: 934,
                         avg_sqft: 775.45,
