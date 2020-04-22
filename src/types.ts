@@ -53,20 +53,26 @@ export interface ListingsResponse {
 
 // Areas
 export interface Area {
-    children: unknown[];
-    parent: string;
+    parent?: string;
     label: string;
     url: string;
     area_type: string;
     filter_type: string;
-    area_id: number;
+    area_id: string | number;
     center_point_json: string;
-    polygon_json: string;
-    zoom_level: number[];
+    children: Partial<Area>[];
+    major_city?: boolean;
+    polygon_json?: string;
+    zoom_level?: number[];
+}
+
+export interface AreaNode {
+    label: string;
+    children: Partial<Area>[] | null;
 }
 
 export interface ParsedArea extends Omit<Area, "center_point_json" | "polygon_json"> {
-    polygon_json: Location[];
+    polygon_json?: Location[];
     center_point_json: Location;
 }
 
@@ -75,8 +81,16 @@ export interface AreasOptions {
     areaId: Locality;
 }
 
-export interface AreasResponse {
+export interface MapAreasResponse {
     Areas: { [key: string]: Area | ParsedArea };
+    Inactive_Areas?: { [key: string]: Area | ParsedArea };
+}
+
+export interface AreasResponse {
+    Areas: Area | ParsedArea;
+    Popular: AreaNode;
+    "Sub-Markets": AreaNode;
+    Nearby: AreaNode;
 }
 
 // Polygons

@@ -2,9 +2,11 @@ import CondosApi, {
     Precision,
     GroupType,
     OfferType,
-    NeighbourhoodDowntown,
-    NeighbourhoodEastEnd,
+    NeighbourhoodTorontoDowntown,
+    NeighbourhoodTorontoEastEnd,
     SublocalityToronto,
+    AreaType,
+    Locality,
 } from "../src";
 
 (async (): Promise<void> => {
@@ -13,8 +15,8 @@ import CondosApi, {
             await CondosApi.listings({
                 precision: Precision.Normal,
                 neighbourhood: [
-                    NeighbourhoodDowntown.KingWest,
-                    NeighbourhoodEastEnd.EastEndDanforth,
+                    NeighbourhoodTorontoDowntown.KingWest,
+                    NeighbourhoodTorontoEastEnd.EastEndDanforth,
                 ],
                 sublocality: [SublocalityToronto.Etobicoke],
                 groupBy: GroupType.Neighbourhood,

@@ -5,6 +5,7 @@ import { uniq } from "lodash";
 import CondosClient from "./client";
 import {
     AreasOptions,
+    MapAreasResponse,
     AreasResponse,
     ListingsOptions,
     ListingsResponse,
@@ -45,7 +46,28 @@ class CondosApi {
         areaType: area_type,
         areaId: area_id,
     }: AreasOptions): Promise<AreasResponse> {
-        const { Areas } = await CondosClient.get<AreasResponse>("/mappings/areas", {
+        const {
+            Areas: { center_point_json = "", polygon_json, ...areasProps },
+            ...props
+        } = await CondosClient.get<AreasResponse>("/menus/areas", {
+            area_type,
+            area_id,
+        });
+
+        return {
+            Areas: {
+                center_point_json: JSON.parse(center_point_json as string) as Location,
+                ...areasProps,
+            },
+            ...props,
+        };
+    }
+
+    static async mapAreas({
+        areaType: area_type,
+        areaId: area_id,
+    }: AreasOptions): Promise<MapAreasResponse> {
+        const { Areas } = await CondosClient.get<MapAreasResponse>("/mappings/areas", {
             area_type,
             area_id,
         });
@@ -74,7 +96,7 @@ class CondosApi {
 
         const data = await CondosClient.get<PolygonsResponse>("/areas/polygons", {
             neighbourhood_id,
-            locality_id
+            locality_id,
         });
 
         Object.keys(data).forEach(areaId => {
