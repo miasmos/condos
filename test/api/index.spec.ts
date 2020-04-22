@@ -439,7 +439,7 @@ describe("api/index", () => {
                     leased_psf_change: -2.91,
                     leased_psf_rank: 5,
                     leased_psf_rank_out_of: 22,
-                    rank_type: GroupType.Neighbourhood,
+                    rank_type: "Neighbourhood",
                     rank_parent_name: "Downtown",
                     rank_parent_url: "toronto/downtown",
                     rank_parent_type: "Sublocality",
