@@ -24,7 +24,7 @@
     "axios": "^0.19.2",
     "lodash": "^4.17.15",
     "luxon": "^1.23.0",
-    "snyk": "^1.316.1"
+    "snyk": "^1.1193.0"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
